@@ -1,65 +1,125 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
+import HeroSlider from '@/components/home/HeroSlider'
+import FeaturedCategories from '@/components/home/FeaturedCategories'
+import AboutSnippet from '@/components/home/AboutSnippet'
+import FeaturedProducts from '@/components/home/FeaturedProducts'
+import WhyChooseUs from '@/components/home/WhyChooseUs'
+import TestimonialPreview from '@/components/home/TestimonialPreview'
+import InstagramFeed from '@/components/home/InstagramFeed'
+import Button from '@/components/ui/Button'
+import { MARQUEE_ITEMS, WHATSAPP_ORDER_URL } from '@/lib/constants'
+import { scaleUp, fadeUp, staggerContainer } from '@/lib/animations'
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <>
+      {/* Section 1: Hero Slider */}
+      <HeroSlider />
+
+      {/* Section 2: Marquee Banner */}
+      <div className="bg-brand-950 py-4 overflow-hidden border-y border-brand-gold/8">
+        <div className="animate-marquee flex whitespace-nowrap">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="font-sans text-brand-gold/70 text-xs uppercase tracking-[0.25em] mx-8 flex items-center gap-8">
+              <span className="text-brand-gold/30 text-[8px]">&#10022;</span>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Section 3: Featured Categories */}
+      <FeaturedCategories />
+
+      {/* Section 4: About Snippet */}
+      <AboutSnippet />
+
+      {/* Section 5: Featured Products / Bestsellers */}
+      <FeaturedProducts />
+
+      {/* Section 6: Why Choose Us */}
+      <WhyChooseUs />
+
+      {/* Section 7: Custom Order CTA Banner */}
+      <section className="relative py-28 md:py-36 overflow-hidden">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+          src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=1600"
+          alt="Custom cake baking"
+          fill
+          className="object-cover"
+          sizes="100vw"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="absolute inset-0 bg-brand-950/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-950/50 via-transparent to-brand-950/50" />
+        <motion.div
+          className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={staggerContainer}
+        >
+          <motion.span variants={fadeUp} className="text-brand-gold/70 font-sans uppercase tracking-[0.35em] text-xs font-medium">
+            Custom Orders
+          </motion.span>
+          <motion.h2
+            variants={scaleUp}
+            className="font-serif italic text-4xl md:text-5xl lg:text-6xl text-brand-ink mt-5 mb-6"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Your Dream Cake Awaits
+          </motion.h2>
+          <motion.p variants={fadeUp} className="font-sans text-brand-ink/50 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-light">
+            Tell us your vision and we&apos;ll bring it to life — from intimate birthdays to grand weddings.
+          </motion.p>
+          <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
+            <a href={WHATSAPP_ORDER_URL} target="_blank" rel="noopener noreferrer">
+              <Button variant="primary" size="lg">Order on WhatsApp</Button>
+            </a>
+            <Link href="/custom-orders">
+              <Button variant="secondary" size="lg" className="border-brand-ink/30 text-brand-ink hover:bg-brand-ink/10 hover:border-brand-ink/50">
+                Custom Order Form
+              </Button>
+            </Link>
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Section 8: Testimonials Preview */}
+      <TestimonialPreview />
+
+      {/* Section 9: Gallery Teaser */}
+      <InstagramFeed />
+
+      {/* Section 10: Newsletter / CTA */}
+      <section className="py-24 md:py-32 bg-brand-950 luxury-dark-bg relative overflow-hidden">
+        <div className="relative z-10">
+          <motion.div
+            className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={staggerContainer}
           >
-            Documentation
-          </a>
+            <motion.span variants={fadeUp} className="text-brand-gold/60 font-sans uppercase tracking-[0.35em] text-xs font-medium">
+              Stay Connected
+            </motion.span>
+            <motion.h2 variants={fadeUp} className="font-serif italic text-3xl md:text-4xl text-brand-ink mt-4 mb-5">
+              Never Miss a Sweet Moment
+            </motion.h2>
+            <motion.p variants={fadeUp} className="font-sans text-brand-light/40 mb-10 font-light">
+              Follow us on social media or reach out on WhatsApp for exclusive offers, new flavours, and celebration inspiration.
+            </motion.p>
+            <motion.div variants={fadeUp}>
+              <a href={WHATSAPP_ORDER_URL} target="_blank" rel="noopener noreferrer">
+                <Button variant="primary">Chat on WhatsApp</Button>
+              </a>
+            </motion.div>
+          </motion.div>
         </div>
-      </main>
-    </div>
-  );
+      </section>
+    </>
+  )
 }

@@ -1,26 +1,187 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand Colors — Rich Noir & Truffle */
+  --color-brand-950: #0A0506;
+  --color-brand-900: #150B0E;
+  --color-brand-800: #241218;
+  --color-brand-700: #361C24;
+  --color-brand-600: #4A2530;
+  --color-brand-500: #6B3848;
+
+  /* Gold Accent — Champagne & Rose Gold Spectrum */
+  --color-brand-gold: #D4A853;
+  --color-brand-goldlt: #E8CC8A;
+  --color-brand-golddark: #B08930;
+  --color-brand-rosegold: #C49B8A;
+
+  /* Background tones — Deep Warm Mocha */
+  --color-brand-cream: #1C1416;
+  --color-brand-ivory: #231A1D;
+  --color-brand-linen: #2A2023;
+  --color-brand-champagne: #1F1719;
+
+  /* Text */
+  --color-brand-ink: #EDE0D4;
+  --color-brand-muted: #B8A89E;
+  --color-brand-light: #8A7B72;
+
+  /* Fonts */
+  --font-display: var(--font-playfair), serif;
+  --font-serif: var(--font-cormorant), serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
+
+  /* Animations */
+  --animate-shimmer: shimmer 3s ease-in-out infinite;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-glow: glow 3s ease-in-out infinite;
+  --animate-grain: grain 8s steps(10) infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes shimmer {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 168, 83, 0.15), 0 0 60px rgba(212, 168, 83, 0.05); }
+  50% { box-shadow: 0 0 30px rgba(212, 168, 83, 0.3), 0 0 80px rgba(212, 168, 83, 0.1); }
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+:root {
+  --background: #1C1416;
+  --foreground: #EDE0D4;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Gold shimmer effect — premium gradient */
+.gold-shimmer {
+  background: linear-gradient(135deg, #B08930 0%, #D4A853 25%, #E8CC8A 50%, #D4A853 75%, #B08930 100%);
+  background-size: 300% 300%;
+  animation: shimmer 3s ease infinite;
+}
+
+/* Subtle gold text shimmer */
+.gold-text-shimmer {
+  background: linear-gradient(120deg, #D4A853 0%, #E8CC8A 40%, #D4A853 60%, #E8CC8A 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s ease infinite;
+}
+
+/* Utility — gold gradient divider */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #D4A853 30%, #E8CC8A 50%, #D4A853 70%, transparent);
+}
+
+/* Premium card glow on hover */
+.luxury-card {
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxury-card:hover {
+  box-shadow: 0 8px 40px rgba(212, 168, 83, 0.12), 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+/* Dark luxury section texture */
+.luxury-dark-bg {
+  position: relative;
+}
+
+.luxury-dark-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(212, 168, 83, 0.04) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(212, 168, 83, 0.03) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(196, 155, 138, 0.02) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Ornate decorative line */
+.ornate-line {
+  height: 1px;
+  position: relative;
+  background: linear-gradient(to right, transparent, rgba(212, 168, 83, 0.5), transparent);
+}
+
+.ornate-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: #D4A853;
+  border-radius: 1px;
+  rotate: 45deg;
+}
+
+/* Scrollbar styling — premium */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #150B0E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #D4A853, #B08930);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #E8CC8A, #D4A853);
+}
+
+/* Selection color — premium */
+::selection {
+  background: rgba(212, 168, 83, 0.35);
+  color: #EDE0D4;
+}
+
+/* Subtle noise texture overlay */
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
 }
