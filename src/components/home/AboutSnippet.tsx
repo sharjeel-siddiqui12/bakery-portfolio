@@ -1,16 +1,48 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import {
   slideLeft,
-  slideRight,
   staggerContainer,
   fadeUp,
 } from "@/lib/animations";
 import { ABOUT_STATS } from "@/lib/constants";
 import Button from "@/components/ui/Button";
+
+function AnimatedCounter({ value }: { value: string }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+  const isInView = useInView(ref, { once: true, amount: 0.5 })
+  const numericVal = parseInt(value.replace(/[^0-9]/g, ''))
+  const displaySuffix = value.replace(/[0-9,]/g, '')
+
+  useEffect(() => {
+    if (!isInView) return
+    const duration = 2000
+    const steps = 60
+    const increment = numericVal / steps
+    let current = 0
+    const timer = setInterval(() => {
+      current += increment
+      if (current >= numericVal) {
+        setCount(numericVal)
+        clearInterval(timer)
+      } else {
+        setCount(Math.floor(current))
+      }
+    }, duration / steps)
+    return () => clearInterval(timer)
+  }, [isInView, numericVal])
+
+  return (
+    <span ref={ref}>
+      {count.toLocaleString()}{displaySuffix}
+    </span>
+  )
+}
 
 export default function AboutSnippet() {
   return (
@@ -29,26 +61,45 @@ export default function AboutSnippet() {
             variants={slideLeft}
           >
             <div className="relative">
-              <div className="absolute -top-3 -left-3 w-full h-full border border-brand-gold/20 rounded-xl" />
-              <div className="relative h-[520px] md:h-[620px] rounded-xl overflow-hidden">
+              <motion.div
+                className="absolute -top-3 -left-3 w-full h-full border border-brand-gold/20 rounded-xl"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <div className="relative h-[520px] md:h-[620px] rounded-xl overflow-hidden group">
                 <Image
                   src="https://plus.unsplash.com/premium_photo-1687886026544-a07433c0ee2a?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0"
                   alt="Hina Bakers kitchen"
                   fill
                   quality={100}
-                  className="object-cover"
+                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-950/30 via-transparent to-transparent" />
+
+                {/* Decorative corner accents on hover */}
+                <div className="absolute top-4 left-4 w-8 h-8 border-l border-t border-brand-gold/20 rounded-tl-lg opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute top-4 right-4 w-8 h-8 border-r border-t border-brand-gold/20 rounded-tr-lg opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute bottom-4 left-4 w-8 h-8 border-l border-b border-brand-gold/20 rounded-bl-lg opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                <div className="absolute bottom-4 right-4 w-8 h-8 border-r border-b border-brand-gold/20 rounded-br-lg opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               </div>
               {/* Est Badge */}
-              <div className="absolute -bottom-5 -right-5 md:bottom-8 md:right-8 bg-brand-950 text-brand-gold px-6 py-4 rounded-lg border border-brand-gold/20">
+              <motion.div
+                className="absolute -bottom-5 -right-5 md:bottom-8 md:right-8 bg-brand-950 text-brand-gold px-6 py-4 rounded-lg border border-brand-gold/20"
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                transition={{ duration: 0.6, delay: 0.5, type: 'spring' }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05, rotate: 2 }}
+              >
                 <p className="font-serif italic text-xs uppercase tracking-widest text-brand-gold/60">
                   Established
                 </p>
                 <p className="font-display text-3xl font-bold">2010</p>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
 
@@ -101,15 +152,20 @@ export default function AboutSnippet() {
             {/* Gold Divider */}
             <motion.div variants={fadeUp} className="gold-divider mb-10" />
 
-            {/* Stats */}
+            {/* Stats with Animated Counters */}
             <motion.div
               variants={staggerContainer}
               className="flex flex-wrap gap-10 mb-10"
             >
               {ABOUT_STATS.map((stat) => (
-                <motion.div key={stat.label} variants={fadeUp}>
+                <motion.div
+                  key={stat.label}
+                  variants={fadeUp}
+                  whileHover={{ scale: 1.08, y: -4 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
                   <p className="font-display text-3xl md:text-4xl font-bold text-brand-gold">
-                    {stat.value}
+                    <AnimatedCounter value={stat.value} />
                   </p>
                   <p className="font-sans text-brand-muted text-xs uppercase tracking-wider mt-1">
                     {stat.label}
@@ -118,7 +174,11 @@ export default function AboutSnippet() {
               ))}
             </motion.div>
 
-            <motion.div variants={fadeUp}>
+            <motion.div
+              variants={fadeUp}
+              whileHover={{ x: 6 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
               <Link href="/about">
                 <Button variant="secondary">Read Our Full Story</Button>
               </Link>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { NAV_LINKS, WHATSAPP_URL } from '@/lib/constants'
 import { cn } from '@/lib/utils'
@@ -12,6 +12,9 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
+
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 80)
@@ -36,6 +39,12 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="scroll-progress"
+        style={{ scaleX }}
+      />
+
       <motion.header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-700',
@@ -51,9 +60,13 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <span className="font-display italic text-2xl md:text-3xl text-brand-gold group-hover:text-brand-goldlt transition-colors duration-500">
+              <motion.span
+                className="font-display italic text-2xl md:text-3xl text-brand-gold group-hover:text-brand-goldlt transition-colors duration-500"
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
                 Hina Bakers
-              </span>
+              </motion.span>
             </Link>
 
             {/* Desktop Nav */}
@@ -63,7 +76,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    'font-sans text-[14px] font-medium tracking-wide transition-colors duration-300 relative py-1',
+                    'font-sans text-[14px] font-medium tracking-wide transition-colors duration-300 relative py-1 hover-underline',
                     pathname === link.href
                       ? 'text-brand-gold'
                       : 'text-brand-ink/70 hover:text-brand-gold'
@@ -83,24 +96,49 @@ export default function Navbar() {
 
             {/* Right side */}
             <div className="flex items-center gap-4">
-              <a
+              <motion.a
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hidden sm:inline-flex items-center gap-2 bg-brand-gold/90 text-brand-950 font-sans font-semibold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-brand-gold hover:shadow-[0_0_20px_rgba(212,168,83,0.3)] transition-all duration-500"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
               >
                 <MessageCircle className="w-4 h-4" />
                 WhatsApp
-              </a>
+              </motion.a>
 
               {/* Mobile Hamburger */}
-              <button
+              <motion.button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="lg:hidden text-brand-ink/80 hover:text-brand-gold p-2 transition-colors"
                 aria-label="Toggle menu"
+                whileTap={{ scale: 0.9 }}
               >
-                {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
+                <AnimatePresence mode="wait">
+                  {mobileOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <X className="w-6 h-6" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Menu className="w-6 h-6" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.button>
             </div>
           </div>
         </nav>

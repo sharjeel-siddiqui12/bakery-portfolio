@@ -3,6 +3,7 @@ import { Playfair_Display, Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import WhatsAppButton from '@/components/layout/WhatsAppButton'
+import CursorGlow from '@/components/ui/CursorGlow'
 import './globals.css'
 
 const playfair = Playfair_Display({
@@ -63,6 +64,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <WhatsAppButton />
+        <CursorGlow />
       </body>
     </html>
   )
