@@ -25,8 +25,8 @@ export const CONTACT_INFO: ContactInfo = {
   },
 }
 
-export const WHATSAPP_URL = 'https://wa.me/923001234567'
-export const WHATSAPP_ORDER_URL = 'https://wa.me/923001234567?text=Hi!%20I%27d%20like%20to%20order%20a%20custom%20cake.'
+export const WHATSAPP_URL = 'https://wa.me/923000000000'
+export const WHATSAPP_ORDER_URL = 'https://wa.me/923000000000?text=Hi!%20I%27d%20like%20to%20order%20a%20custom%20cake.'
 
 export const HERO_SLIDES = [
   {
