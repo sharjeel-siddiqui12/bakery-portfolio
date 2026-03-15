@@ -428,7 +428,7 @@ export const TIMELINE: TimelineItem[] = [
   {
     year: '2013',
     title: 'First Shop',
-    description: 'We opened our first retail shop in Gulshan-e-Iqbal, bringing our cakes closer to our growing customer base.',
+    description: 'We opened our first retail shop in North Karachi, bringing our cakes closer to our growing customer base.',
   },
   {
     year: '2016',
