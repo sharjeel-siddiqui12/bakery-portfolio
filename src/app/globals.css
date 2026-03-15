@@ -126,11 +126,27 @@ body {
   font-family: var(--font-sans);
 }
 
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Gold shimmer effect — premium gradient */
 .gold-shimmer {
   background: linear-gradient(135deg, #B08930 0%, #D4A853 25%, #E8CC8A 50%, #D4A853 75%, #B08930 100%);
   background-size: 300% 300%;
-  animation: shimmer 3s ease infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gold-shimmer {
+    animation: shimmer 3s ease infinite;
+  }
 }
 
 /* Subtle gold text shimmer */
@@ -140,7 +156,12 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 3s ease infinite;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gold-text-shimmer {
+    animation: shimmer 3s ease infinite;
+  }
 }
 
 /* Utility — gold gradient divider */
@@ -151,12 +172,24 @@ body {
 
 /* Premium card glow on hover */
 .luxury-card {
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .luxury-card:hover {
-  box-shadow: 0 8px 40px rgba(212, 168, 83, 0.12), 0 4px 20px rgba(0, 0, 0, 0.08);
-  transform: translateY(-4px);
+  box-shadow: 0 4px 20px rgba(212, 168, 83, 0.08), 0 2px 10px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+  .luxury-card {
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .luxury-card:hover {
+    box-shadow: 0 8px 40px rgba(212, 168, 83, 0.12), 0 4px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+  }
 }
 
 /* Dark luxury section texture */
@@ -257,7 +290,13 @@ body {
 
 /* Text glow animation */
 .text-glow {
-  animation: textGlow 3s ease-in-out infinite;
+  will-change: text-shadow;
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  .text-glow {
+    animation: textGlow 3s ease-in-out infinite;
+  }
 }
 
 /* Floating particles container */
@@ -293,8 +332,10 @@ body {
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.magnetic-icon:hover {
-  animation: pulseGold 2s ease-in-out infinite;
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+  .magnetic-icon:hover {
+    animation: pulseGold 2s ease-in-out infinite;
+  }
 }
 
 /* Staggered reveal for masonry items */
@@ -324,6 +365,13 @@ body {
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+@media (max-width: 767px) {
+  .cursor-glow {
+    display: none;
+  }
 }
 
 /* Smooth hover underline */

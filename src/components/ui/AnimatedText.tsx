@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { letterReveal, staggerContainerFast } from '@/lib/animations'
 
 interface AnimatedTextProps {
@@ -10,12 +10,17 @@ interface AnimatedTextProps {
 
 export default function AnimatedText({ text, className = '' }: AnimatedTextProps) {
   const words = text.split(' ')
+  const prefersReducedMotion = useReducedMotion()
+
+  if (prefersReducedMotion) {
+    return <span className={className}>{text}</span>
+  }
 
   return (
     <motion.span
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: true, amount: 0.1, margin: '50px' }}
       variants={staggerContainerFast}
       className={`inline-flex flex-wrap ${className}`}
     >

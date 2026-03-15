@@ -3,22 +3,24 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useTransform, useReducedMotion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import { HERO_SLIDES } from '@/lib/constants'
 import { fadeUp, staggerContainer } from '@/lib/animations'
 import Button from '@/components/ui/Button'
 
-function GoldParticles() {
+function GoldParticles({ isMobile }: { isMobile: boolean }) {
+  // Reduce particles on mobile for better performance
+  const particleCount = isMobile ? 5 : 15
   const particles = useMemo(() =>
-    Array.from({ length: 20 }, (_, i) => ({
+    Array.from({ length: particleCount }, (_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       delay: Math.random() * 5,
       duration: 3 + Math.random() * 4,
-      size: 2 + Math.random() * 4,
-    })), [])
+      size: isMobile ? 2 : 2 + Math.random() * 4,
+    })), [particleCount, isMobile])
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-[5]">
@@ -53,10 +55,22 @@ function GoldParticles() {
 
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const prefersReducedMotion = useReducedMotion()
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   const textX = useTransform(mouseX, [0, 1], [-8, 8])
   const textY = useTransform(mouseY, [0, 1], [-5, 5])
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % HERO_SLIDES.length)
@@ -72,10 +86,12 @@ export default function HeroSlider() {
   }, [next])
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    // Skip parallax on mobile
+    if (isMobile) return
     const rect = e.currentTarget.getBoundingClientRect()
     mouseX.set((e.clientX - rect.left) / rect.width)
     mouseY.set((e.clientY - rect.top) / rect.height)
-  }, [mouseX, mouseY])
+  }, [mouseX, mouseY, isMobile])
 
   const slide = HERO_SLIDES[current]
 
@@ -88,17 +104,29 @@ export default function HeroSlider() {
       <AnimatePresence mode="wait">
         <motion.div
           key={current}
-          initial={{ opacity: 0, scale: 1.15 }}
-          animate={{ opacity: 1, scale: 1.02 }}
-          exit={{ opacity: 0, scale: 1 }}
-          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.98 }}
+          transition={{ duration: prefersReducedMotion ? 0.3 : 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
-          <motion.div
-            className="absolute inset-0"
-            animate={{ scale: [1.02, 1.08] }}
-            transition={{ duration: 8, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
-          >
+          {/* Disable continuous Ken Burns animation on mobile for performance */}
+          {!isMobile && !prefersReducedMotion ? (
+            <motion.div
+              className="absolute inset-0"
+              animate={{ scale: [1.02, 1.06] }}
+              transition={{ duration: 8, ease: 'linear', repeat: Infinity, repeatType: 'reverse' }}
+            >
+              <Image
+                src={slide.image}
+                alt={slide.headline}
+                fill
+                className="object-cover"
+                priority={current === 0}
+                sizes="100vw"
+              />
+            </motion.div>
+          ) : (
             <Image
               src={slide.image}
               alt={slide.headline}
@@ -107,15 +135,15 @@ export default function HeroSlider() {
               priority={current === 0}
               sizes="100vw"
             />
-          </motion.div>
+          )}
           {/* Multi-layered premium overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-brand-950/50 via-brand-950/40 to-brand-950/80" />
           <div className="absolute inset-0 bg-gradient-to-r from-brand-950/30 via-transparent to-brand-950/30" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Floating Gold Particles */}
-      <GoldParticles />
+      {/* Floating Gold Particles - Reduced on mobile */}
+      {!prefersReducedMotion && <GoldParticles isMobile={isMobile} />}
 
       {/* Content with Parallax Mouse Following */}
       <div className="relative z-10 flex items-center justify-center min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,7 +155,7 @@ export default function HeroSlider() {
             animate="visible"
             exit="hidden"
             variants={staggerContainer}
-            style={{ x: textX, y: textY }}
+            style={isMobile ? {} : { x: textX, y: textY }}
           >
             {/* Decorative label */}
             <motion.div variants={fadeUp} className="flex items-center justify-center gap-3 mb-6">

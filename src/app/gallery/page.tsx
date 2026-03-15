@@ -8,11 +8,12 @@ import { GALLERY_IMAGES, GALLERY_CATEGORIES } from '@/lib/constants'
 import type { PinHeight } from '@/lib/constants'
 import { fadeUp, staggerContainer } from '@/lib/animations'
 
-const pinHeightMap: Record<PinHeight, string> = {
-  sm: 'h-[220px] sm:h-[240px]',
-  md: 'h-[280px] sm:h-[300px]',
-  lg: 'h-[340px] sm:h-[380px]',
-  xl: 'h-[400px] sm:h-[450px]',
+// Use aspect ratios based on actual image dimensions for proper masonry
+const pinAspectMap: Record<PinHeight, string> = {
+  sm: 'aspect-[3/2]',    // ~800x530 - wider landscape
+  md: 'aspect-[4/3]',    // ~800x600 - standard
+  lg: 'aspect-[9/10]',   // ~800x900 - tall portrait
+  xl: 'aspect-[2/3]',    // ~800x1200 - very tall portrait
 }
 
 export default function GalleryPage() {
@@ -105,14 +106,15 @@ export default function GalleryPage() {
                 className="mb-4 break-inside-avoid"
               >
                 <div
-                  className={`group relative rounded-xl overflow-hidden cursor-pointer ${pinHeightMap[img.pinHeight]}`}
+                  className={`group relative rounded-xl overflow-hidden cursor-pointer w-full ${pinAspectMap[img.pinHeight]}`}
                   onClick={() => openLightbox(i)}
                 >
                   <Image
                     src={img.src}
                     alt={img.alt}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    width={600}
+                    height={800}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                   {/* Hover overlay */}

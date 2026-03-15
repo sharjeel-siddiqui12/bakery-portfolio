@@ -34,18 +34,14 @@ export default function HomePage() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.5 }}
       >
         <div className="animate-marquee flex whitespace-nowrap">
           {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
             <span key={i} className="font-sans text-brand-gold/70 text-xs uppercase tracking-[0.25em] mx-8 flex items-center gap-8">
-              <motion.span
-                className="text-brand-gold/30 text-[8px]"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-              >
+              <span className="text-brand-gold/30 text-[8px]">
                 &#10022;
-              </motion.span>
+              </span>
               {item}
             </span>
           ))}
@@ -101,12 +97,12 @@ export default function HomePage() {
               href={WHATSAPP_ORDER_URL}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               <Button variant="primary" size="lg">Order on WhatsApp</Button>
             </motion.a>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
               <Link href="/custom-orders">
                 <Button variant="secondary" size="lg" className="border-brand-ink/30 text-brand-ink hover:bg-brand-ink/10 hover:border-brand-ink/50">
                   Custom Order Form
@@ -125,11 +121,11 @@ export default function HomePage() {
 
       {/* Section 10: Newsletter / CTA */}
       <section className="py-24 md:py-32 bg-brand-950 luxury-dark-bg relative overflow-hidden">
-        {/* Animated background accent */}
+        {/* Animated background accent - disabled on mobile for performance */}
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-brand-gold/[0.015] blur-3xl"
-          animate={{ scale: [1, 1.3, 1], rotate: [0, 180, 360] }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-brand-gold/[0.015] blur-3xl hidden md:block"
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
         />
 
         <div className="relative z-10">
@@ -151,8 +147,8 @@ export default function HomePage() {
             </motion.p>
             <motion.div
               variants={fadeUp}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className="inline-block"
             >
               <a href={WHATSAPP_ORDER_URL} target="_blank" rel="noopener noreferrer">

@@ -11,11 +11,12 @@ import { ZoomIn } from 'lucide-react'
 
 const previewImages = GALLERY_IMAGES.slice(0, 8)
 
-const pinHeightMap: Record<PinHeight, string> = {
-  sm: 'h-[200px] sm:h-[220px]',
-  md: 'h-[260px] sm:h-[280px]',
-  lg: 'h-[320px] sm:h-[350px]',
-  xl: 'h-[380px] sm:h-[420px]',
+// Use aspect ratios based on actual image dimensions for proper masonry
+const pinAspectMap: Record<PinHeight, string> = {
+  sm: 'aspect-[3/2]',    // ~800x530 - wider landscape
+  md: 'aspect-[4/3]',    // ~800x600 - standard
+  lg: 'aspect-[9/10]',   // ~800x900 - tall portrait
+  xl: 'aspect-[2/3]',    // ~800x1200 - very tall portrait
 }
 
 const itemVariants = {
@@ -59,13 +60,14 @@ export default function InstagramFeed() {
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
               <div
-                className={`group relative rounded-xl overflow-hidden ${pinHeightMap[img.pinHeight]}`}
+                className={`group relative rounded-xl overflow-hidden w-full ${pinAspectMap[img.pinHeight]}`}
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
-                  fill
-                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+                  width={600}
+                  height={800}
+                  className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-brand-950/0 to-brand-950/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
