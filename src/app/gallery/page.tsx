@@ -40,7 +40,7 @@ export default function GalleryPage() {
   return (
     <>
       {/* Page Hero */}
-      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[100vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=1600"
           alt="Our Gallery"
@@ -56,13 +56,13 @@ export default function GalleryPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="font-sans text-brand-gold text-sm uppercase tracking-widest mb-3">
+          <p className="font-sans text-brand-gold text-md uppercase tracking-widest mb-3">
             Home &mdash; Gallery
           </p>
-          <h1 className="font-display italic text-5xl md:text-6xl text-brand-ink font-bold">
+          <h1 className="font-display italic text-5xl md:text-9xl text-brand-ink font-bold">
             Our Gallery
           </h1>
-          <p className="font-sans text-brand-ink/80 mt-4 text-lg">
+          <p className="font-sans text-brand-ink/80 mt-4 text-2xl">
             A visual celebration of our craft
           </p>
         </motion.div>

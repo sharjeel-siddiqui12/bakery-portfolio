@@ -19,9 +19,9 @@ export default function MenuPage() {
   return (
     <>
       {/* Page Hero */}
-      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[100vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=1600"
+          src="https://plus.unsplash.com/premium_photo-1687905431983-2a4b90a3a744?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Our Menu"
           fill
           className="object-cover"
@@ -35,13 +35,13 @@ export default function MenuPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="font-sans text-brand-gold text-sm uppercase tracking-widest mb-3">
+          <p className="font-sans text-brand-gold text-md uppercase tracking-widest mb-3">
             Home &mdash; Menu
           </p>
-          <h1 className="font-display italic text-5xl md:text-6xl text-brand-ink font-bold">
+          <h1 className="font-display italic text-5xl md:text-9xl text-brand-ink font-bold">
             Our Menu
           </h1>
-          <p className="font-sans text-brand-ink/80 mt-4 text-lg">
+          <p className="font-sans text-brand-ink/80 mt-4 text-2xl">
             Every bite crafted with precision and passion
           </p>
         </motion.div>

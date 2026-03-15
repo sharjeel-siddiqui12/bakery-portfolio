@@ -11,9 +11,9 @@ export default function AboutPage() {
   return (
     <>
       {/* Page Hero */}
-      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[100vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600"
+          src="https://plus.unsplash.com/premium_photo-1675604274302-665e7e65021e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Hina Bakers"
           fill
           className="object-cover"
@@ -27,10 +27,10 @@ export default function AboutPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="font-sans text-brand-gold text-sm uppercase tracking-widest mb-3">
+          <p className="font-sans text-brand-gold text-md uppercase tracking-widest mb-3">
             Home &mdash; About
           </p>
-          <h1 className="font-display italic text-5xl md:text-6xl text-brand-ink font-bold">
+          <h1 className="font-display italic text-5xl md:text-9xl text-brand-ink font-bold">
             Our Story
           </h1>
         </motion.div>

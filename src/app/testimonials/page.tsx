@@ -19,9 +19,9 @@ export default function TestimonialsPage() {
   return (
     <>
       {/* Page Hero */}
-      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[100vh] min-h-[400px] flex items-center justify-center overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1511018556340-d16986a1c194?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="https://images.unsplash.com/photo-1652891771857-e9c2dc024f9e?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Testimonials"
           fill
           className="object-cover"
@@ -35,13 +35,13 @@ export default function TestimonialsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="font-sans text-brand-gold text-sm uppercase tracking-widest mb-3">
+          <p className="font-sans text-brand-gold text-md uppercase tracking-widest mb-3">
             Home &mdash; Testimonials
           </p>
-          <h1 className="font-display italic text-5xl md:text-6xl text-brand-ink font-bold">
+          <h1 className="font-display italic text-5xl md:text-8xl text-brand-ink font-bold">
             What Our Customers Say
           </h1>
-          <p className="font-sans text-brand-ink/80 mt-4 text-lg">
+          <p className="font-sans text-brand-ink/80 mt-4 text-2xl">
             Over 10,000 satisfied customers and counting
           </p>
         </motion.div>
