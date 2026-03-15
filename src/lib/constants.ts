@@ -10,9 +10,9 @@ export const NAV_LINKS: NavLink[] = [
 ]
 
 export const CONTACT_INFO: ContactInfo = {
-  address: 'Shop #12, Block 4, Gulshan-e-Iqbal, Karachi',
-  phone: '+92 300 1234567',
-  whatsapp: '+92 300 1234567',
+  address: 'North Karachi',
+  phone: '+92 300 0000000',
+  whatsapp: '+92 300 0000000',
   email: 'hello@hinabakers.com',
   hours: {
     weekday: 'Mon–Sat 9am–9pm',
